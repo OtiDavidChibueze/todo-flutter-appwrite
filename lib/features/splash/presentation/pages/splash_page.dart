@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_flutter_appwrite/core/constants/app_images_url.dart';
-import 'package:todo_flutter_appwrite/core/utils/sizer.dart';
+import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
 
 class SplashPage extends StatefulWidget {
   static const String routeName = 'splash';
