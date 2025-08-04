@@ -13,8 +13,8 @@ final class AppRoutes {
 
       GoRoute(
         path: '/register',
-        name: Register.routeName,
-        builder: (context, state) => Register(),
+        name: RegisterPage.routeName,
+        builder: (context, state) => RegisterPage(),
       ),
     ],
   );
