@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter_appwrite/features/auth/presentation/pages/register.dart';
 import 'package:todo_flutter_appwrite/features/splash/presentation/pages/splash_page.dart';
 
 final class AppRoutes {
@@ -8,6 +9,12 @@ final class AppRoutes {
         path: '/',
         name: SplashPage.routeName,
         builder: (context, state) => SplashPage(),
+      ),
+
+      GoRoute(
+        path: '/register',
+        name: Register.routeName,
+        builder: (context, state) => Register(),
       ),
     ],
   );
