@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_flutter_appwrite/core/constants/app_images_url.dart';
 import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
+import 'package:todo_flutter_appwrite/features/auth/presentation/pages/login.dart';
 
 class SplashPage extends StatefulWidget {
   static const String routeName = 'splash';
@@ -17,8 +19,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // todo navigate to login
-      Scaffold(body: Center(child: Text('Splash Page')));
+      context.goNamed(LoginPage.routeName);
     });
   }
 
