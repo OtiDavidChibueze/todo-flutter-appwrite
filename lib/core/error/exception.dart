@@ -1,4 +1,7 @@
-class ServiceException {
+class ServerException implements Exception {
   final String message;
-  ServiceException({required this.message});
+  ServerException({required this.message});
+
+  @override
+  String toString() => message;
 }
