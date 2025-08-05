@@ -9,17 +9,22 @@ class FullscreenDialogLoader {
     if (!_isDialogOpen) {
       _isDialogOpen = true;
 
-      WidgetsBinding.instance.addPersistentFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
           showDialog(
             context: context,
-            builder: (_) {
+            barrierDismissible: false,
+            builder: (context) {
               return PopScope(
                 canPop: false,
-                child: SpinKitCircle(color: AppColor.appColor, size: 50),
+                child: Center(
+                  child: SpinKitCircle(color: AppColor.appColor, size: 50.0),
+                ),
               );
             },
-          ).then((_) => _isDialogOpen = false);
+          ).then((_) {
+            _isDialogOpen = false;
+          });
         }
       });
     }
