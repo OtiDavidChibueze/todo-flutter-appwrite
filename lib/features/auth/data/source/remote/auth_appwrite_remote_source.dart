@@ -9,7 +9,7 @@ import '../../../../../core/logger/app_logger.dart';
 import '../../../../../core/provider/app_write_provider.dart';
 
 abstract interface class AuthAppwriteRemoteSource {
-  Future<UserModel> registerUser(RegisterRequestDto user);
+  Future<UserModel> registerUser(RegisterRequestDto req);
 }
 
 class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
@@ -23,10 +23,10 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
        _internetConnectionChecker = internetConnectionChecker;
 
   @override
-  Future<UserModel> registerUser(RegisterRequestDto dto) async {
+  Future<UserModel> registerUser(RegisterRequestDto req) async {
     try {
       if (!await _internetConnectionChecker.hasConnection) {
-        throw ServerException(message: 'No internet connection');
+        throw ServerException(message: AppString.internetConnection);
       }
 
       final account = _appWriteProvider.account;
@@ -38,9 +38,9 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
 
       final createdUser = await account.create(
         userId: ID.unique(),
-        email: dto.email,
-        password: dto.password,
-        name: '${dto.fullname} ${dto.lastname}',
+        email: req.email,
+        password: req.password,
+        name: '${req.fullname} ${req.lastname}',
       );
 
       final document = await db!.createDocument(
@@ -49,10 +49,10 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
         documentId: createdUser.$id,
         data: {
           'id': createdUser.$id,
-          'fullname': '${dto.fullname} ${dto.lastname}',
-          'firstname': dto.fullname,
-          'lastname': dto.lastname,
-          'email': dto.email,
+          'fullname': '${req.fullname} ${req.lastname}',
+          'firstname': req.fullname,
+          'lastname': req.lastname,
+          'email': req.email,
           'profileImage': '',
         },
       );

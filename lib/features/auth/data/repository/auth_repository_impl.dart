@@ -18,10 +18,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity>> registerUser(
-    RegisterRequestDto user,
+    RegisterRequestDto req,
   ) async {
     return _getUser(
-      () async => await _authAppwriteRemoteSource.registerUser(user),
+      () async => await _authAppwriteRemoteSource.registerUser(req),
     );
   }
 
