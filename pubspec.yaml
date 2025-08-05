@@ -47,6 +47,7 @@ dependencies:
   flutter_spinkit: ^5.2.1
   flutter_dotenv: ^5.2.1
   google_fonts: ^6.3.0
+  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:
