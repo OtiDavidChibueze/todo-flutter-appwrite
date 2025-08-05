@@ -9,4 +9,8 @@ class AppString {
   static const String register = 'Register';
   static const String login = 'Login';
   static const String newUser = 'Don\'t have an account? ';
+  static const String haveAccount = 'Already have an account? ';
+  static const String registerSuccessMsg =
+      'Registration successful, please login!';
+  static const String passwordTooShort = 'Password too short!';
 }
