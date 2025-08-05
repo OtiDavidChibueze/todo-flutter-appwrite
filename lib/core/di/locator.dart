@@ -23,6 +23,7 @@ _initAuth() {
       () => AuthAppwriteRemoteSourceImpl(
         appWriteProvider: locator(),
         internetConnectionChecker: locator(),
+        sessionManager: locator(),
       ),
     )
     ..registerLazySingleton<AuthRepository>(
