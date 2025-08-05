@@ -18,8 +18,10 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.goNamed(LoginPage.routeName);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        context.goNamed(LoginPage.routeName);
+      }
     });
   }
 
