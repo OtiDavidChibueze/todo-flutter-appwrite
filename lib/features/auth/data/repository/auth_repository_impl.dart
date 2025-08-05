@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:fpdart/fpdart.dart';
+import '../dtos/register_dto.dart';
 import '../../../../core/constants/app_string.dart';
 import '../../domain/entities/user_entiry.dart';
 import '../../../../core/error/exception.dart';
@@ -16,19 +17,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }) : _authAppwriteRemoteSource = authAppwriteRemoteSource;
 
   @override
-  Future<Either<Failure, UserEntity>> registerUser({
-    required String firstname,
-    required String lastname,
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<Failure, UserEntity>> registerUser(
+    RegisterRequestDto user,
+  ) async {
     return _getUser(
-      () async => await _authAppwriteRemoteSource.registerUser(
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: password,
-      ),
+      () async => await _authAppwriteRemoteSource.registerUser(user),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/dtos/register_dto.dart';
 import '../../domain/entities/user_entiry.dart';
 import '../../domain/usecases/register_user_usecase.dart';
 
@@ -20,8 +21,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final result = await _registerUserUsecase(
-      RegisterUserParams(
-        firstname: event.firstname,
+      RegisterRequestDto(
+        fullname: event.firstname,
         lastname: event.lastname,
         email: event.email,
         password: event.password,

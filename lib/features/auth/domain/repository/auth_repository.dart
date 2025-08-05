@@ -1,12 +1,8 @@
 import 'package:fpdart/fpdart.dart';
-import '../entities/user_entiry.dart';
 import '../../../../core/error/failure.dart';
+import '../../data/dtos/register_dto.dart';
+import '../entities/user_entiry.dart';
 
 abstract interface class AuthRepository {
-  Future<Either<Failure, UserEntity>> registerUser({
-    required String firstname,
-    required String lastname,
-    required String email,
-    required String password,
-  });
+  Future<Either<Failure, UserEntity>> registerUser(RegisterRequestDto user);
 }

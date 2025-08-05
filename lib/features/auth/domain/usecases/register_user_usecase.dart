@@ -1,36 +1,18 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/usecases/use_cases.dart';
+import '../../data/dtos/register_dto.dart';
 import '../entities/user_entiry.dart';
 import '../repository/auth_repository.dart';
 
-class RegisterUserUsecase implements UseCases<UserEntity, RegisterUserParams> {
+class RegisterUserUsecase implements UseCases<UserEntity, RegisterRequestDto> {
   final AuthRepository _authRepository;
 
   RegisterUserUsecase({required AuthRepository authRepository})
     : _authRepository = authRepository;
 
   @override
-  Future<Either<Failure, UserEntity>> call(RegisterUserParams params) async {
-    return await _authRepository.registerUser(
-      firstname: params.firstname,
-      lastname: params.lastname,
-      email: params.email,
-      password: params.password,
-    );
+  Future<Either<Failure, UserEntity>> call(RegisterRequestDto params) async {
+    return _authRepository.registerUser(params);
   }
-}
-
-class RegisterUserParams {
-  final String firstname;
-  final String lastname;
-  final String email;
-  final String password;
-
-  RegisterUserParams({
-    required this.firstname,
-    required this.lastname,
-    required this.email,
-    required this.password,
-  });
 }
