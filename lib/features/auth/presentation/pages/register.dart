@@ -58,13 +58,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
           if (state is AuthErrorState) {
             FullscreenDialogLoader.cancel(context);
-            CustomSnackbar.showError(context, state.errorMsg);
+            CustomSnackbar.error(context, state.errorMsg);
           }
 
           if (state is AuthSuccessState) {
             FullscreenDialogLoader.cancel(context);
             clearInputs();
-            CustomSnackbar.showSuccess(context, AppString.registerSuccessMsg);
+            CustomSnackbar.success(context, AppString.registerSuccessMsg);
             context.goNamed(LoginPage.routeName);
           }
         },
