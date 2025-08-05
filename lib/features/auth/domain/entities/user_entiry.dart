@@ -1,17 +1,15 @@
-class UserEntiry {
-  final String id;
+class UserEntity {
   final String firstname;
   final String lastname;
   final String email;
-  final String password;
+  final String? password;
   final String profileImage;
 
-  UserEntiry({
-    required this.id,
+  UserEntity({
     required this.firstname,
     required this.lastname,
     required this.email,
-    required this.password,
+    this.password,
     required this.profileImage,
   });
 }

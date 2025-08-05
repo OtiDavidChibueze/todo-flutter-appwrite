@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:todo_flutter_appwrite/core/constants/app_write_strings.dart';
+import '../constants/app_write_strings.dart';
 
 class AppWriteProvider {
   Client client = Client();

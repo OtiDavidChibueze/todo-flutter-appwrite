@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_flutter_appwrite/features/auth/domain/entities/user_entiry.dart';
-import 'package:todo_flutter_appwrite/features/auth/domain/usecases/register_user_usecase.dart';
+import '../../domain/entities/user_entiry.dart';
+import '../../domain/usecases/register_user_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

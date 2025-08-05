@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
-import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
+import '../common/theme/app_color.dart';
+import 'size_utils.dart';
 
 class CustomSnackbar {
   static void error(BuildContext context, String message) {
@@ -22,7 +22,10 @@ class CustomSnackbar {
         ..showSnackBar(
           SnackBar(
             backgroundColor: color,
-            content: Text(message, style: TextStyle(fontSize: sp(16))),
+            content: Text(
+              message,
+              style: TextStyle(fontSize: sp(14), color: AppColor.whiteColor),
+            ),
           ),
         );
     });

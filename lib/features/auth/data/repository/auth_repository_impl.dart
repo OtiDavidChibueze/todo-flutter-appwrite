@@ -1,10 +1,12 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:todo_flutter_appwrite/core/error/exception.dart';
-import 'package:todo_flutter_appwrite/core/error/failure.dart';
-import 'package:todo_flutter_appwrite/features/auth/data/source/remote/auth_appwrite_remote_source.dart';
-import 'package:todo_flutter_appwrite/features/auth/domain/entities/user_entiry.dart';
-import 'package:todo_flutter_appwrite/features/auth/domain/repository/auth_repository.dart';
+import '../../../../core/constants/app_string.dart';
+import '../../domain/entities/user_entiry.dart';
+import '../../../../core/error/exception.dart';
+import '../../../../core/error/failure.dart';
+import '../source/remote/auth_appwrite_remote_source.dart';
+
+import '../../domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthAppwriteRemoteSource _authAppwriteRemoteSource;
@@ -14,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) : _authAppwriteRemoteSource = authAppwriteRemoteSource;
 
   @override
-  Future<Either<Failure, UserEntiry>> registerUser({
+  Future<Either<Failure, UserEntity>> registerUser({
     required String firstname,
     required String lastname,
     required String email,
@@ -30,14 +32,17 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  Future<Either<Failure, UserEntiry>> _getUser(
-    Future<UserEntiry> Function() fn,
+  Future<Either<Failure, UserEntity>> _getUser(
+    Future<UserEntity> Function() fn,
   ) async {
     try {
       final data = await fn();
 
       return Right(data);
     } on AppwriteException catch (e) {
+      if (e.message == null) {
+        throw ServerException(message: AppString.failure);
+      }
       return Left(Failure(e.message!));
     } on ServerException catch (e) {
       return Left(Failure(e.message));

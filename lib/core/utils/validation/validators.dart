@@ -1,4 +1,4 @@
-import 'package:todo_flutter_appwrite/core/constants/app_string.dart';
+import '../../constants/app_string.dart';
 
 class Validations {
   static String? isEmpty(String? value) {
@@ -17,7 +17,8 @@ class Validations {
   static String? password(String? value) {
     if (value == null || value.isEmpty) return AppString.required;
 
-    if (value.length <= 5) return AppString.passwordTooShort;
+    if (value.length <= 8 || value.length >= 265)
+      return AppString.passwordValidation;
 
     return null;
   }

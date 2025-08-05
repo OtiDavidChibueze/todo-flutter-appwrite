@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
-import 'package:todo_flutter_appwrite/core/constants/app_images_url.dart';
-import 'package:todo_flutter_appwrite/core/constants/app_string.dart';
-import 'package:todo_flutter_appwrite/core/utils/custom_snackbar.dart';
-import 'package:todo_flutter_appwrite/core/utils/fullscreen_dialog_loader.dart';
-import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
-import 'package:todo_flutter_appwrite/core/utils/validation/validators.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/pages/login.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/widgets/custom_button_widget.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/widgets/custom_textfield_widget.dart';
+import '../../../../core/common/theme/app_color.dart';
+import '../../../../core/constants/app_images_url.dart';
+import '../../../../core/constants/app_string.dart';
+import '../../../../core/utils/custom_snackbar.dart';
+import '../../../../core/utils/fullscreen_dialog_loader.dart';
+import '../../../../core/utils/size_utils.dart';
+import '../../../../core/utils/validation/validators.dart';
+import '../bloc/auth_bloc.dart';
+import 'login.dart';
+import '../widgets/custom_button_widget.dart';
+import '../widgets/custom_textfield_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String routeName = 'register';
@@ -151,8 +151,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 password: _passwordCtrl.text.trim(),
                               ),
                             );
-
-                            clearInputs();
                           }
                         },
                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
+
+import '../common/theme/app_color.dart';
 
 class FullscreenDialogLoader {
   static bool _isDialogOpen = false;

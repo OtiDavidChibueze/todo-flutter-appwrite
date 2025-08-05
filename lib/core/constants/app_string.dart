@@ -12,5 +12,7 @@ class AppString {
   static const String haveAccount = 'Already have an account? ';
   static const String registerSuccessMsg =
       'Registration successful, please login!';
-  static const String passwordTooShort = 'Password too short!';
+  static const String passwordValidation =
+      'Password must be greater than 7 and less than 265!';
+  static const String accountService = 'Account service unavailable';
 }

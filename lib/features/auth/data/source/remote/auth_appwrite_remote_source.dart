@@ -1,10 +1,11 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:todo_flutter_appwrite/core/constants/app_write_strings.dart';
-import 'package:todo_flutter_appwrite/core/error/exception.dart';
-import 'package:todo_flutter_appwrite/core/logger/app_logger.dart';
-import 'package:todo_flutter_appwrite/core/provider/app_write_provider.dart';
-import 'package:todo_flutter_appwrite/features/auth/data/model/user_model.dart';
+import '../../../../../core/constants/app_string.dart';
+import '../../model/user_model.dart';
+import '../../../../../core/constants/app_write_strings.dart';
+import '../../../../../core/error/exception.dart';
+import '../../../../../core/logger/app_logger.dart';
+import '../../../../../core/provider/app_write_provider.dart';
 
 abstract interface class AuthAppwriteRemoteSource {
   Future<UserModel> registerUser({
@@ -34,19 +35,22 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
   }) async {
     try {
       if (await _internetConnectionChecker.hasConnection) {
-        final response = await _appWriteProvider.account!.create(
+        if (_appWriteProvider.account == null) {
+          throw ServerException(message: AppString.accountService);
+        }
+        final user = await _appWriteProvider.account!.create(
           userId: ID.unique(),
           email: email,
           password: password,
           name: '$firstname $lastname',
         );
 
-        await _appWriteProvider.database!.createDocument(
+        final userDoc = await _appWriteProvider.database!.createDocument(
           databaseId: AppWriteStrings.databaseId,
           collectionId: AppWriteStrings.userCollectionId,
-          documentId: response.$id,
+          documentId: user.$id,
           data: {
-            'id': response.$id,
+            'id': user.$id,
             'fullname': '$firstname $lastname',
             'firstname': firstname,
             'lastname': lastname,
@@ -55,9 +59,11 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
           },
         );
 
-        AppLogger.i('User registered successfully: $response.tolMap()');
+        AppLogger.i(
+          'User registered successfully -> UserData:${userDoc.data},\n UserMetaData: ${userDoc.toMap()}',
+        );
 
-        return UserModel.fromMap(response.toMap());
+        return UserModel.fromMap(userDoc.data);
       }
       throw ServerException(message: 'No internet connection');
     } catch (e) {

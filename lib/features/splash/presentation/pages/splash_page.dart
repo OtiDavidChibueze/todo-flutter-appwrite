@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_flutter_appwrite/core/constants/app_images_url.dart';
-import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/pages/login.dart';
+import '../../../../core/constants/app_images_url.dart';
+import '../../../../core/utils/size_utils.dart';
+import '../../../auth/presentation/pages/login.dart';
 
 class SplashPage extends StatefulWidget {
   static const String routeName = 'splash';

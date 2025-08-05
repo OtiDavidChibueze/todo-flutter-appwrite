@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
+import '../../../../core/common/theme/app_color.dart';
 
-import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
+import '../../../../core/utils/size_utils.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   final double width;

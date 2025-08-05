@@ -1,4 +1,4 @@
-import 'package:todo_flutter_appwrite/core/constants/app_string.dart';
+import '../constants/app_string.dart';
 
 class Failure {
   final String message;
