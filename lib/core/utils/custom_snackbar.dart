@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
 import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
 
-class CustomSnack {
+class CustomSnackbar {
   static void error(BuildContext context, String message) {
     _showSnackBar(context, message, AppColor.snackbarRed);
   }
