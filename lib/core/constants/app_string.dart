@@ -10,7 +10,7 @@ class AppString {
   static const String login = 'Login';
   static const String newUser = 'Don\'t have an account? ';
   static const String haveAccount = 'Already have an account? ';
-  static const String registerSuccessMsg = 'Please login!';
+  static const String registerSuccessMsg = 'Success, please login!';
   static const String passwordValidation =
       'Password must be greater than 7 and less than 265!';
   static const String accountService = 'Account service unavailable';
