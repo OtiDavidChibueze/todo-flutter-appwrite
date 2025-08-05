@@ -5,7 +5,7 @@ import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
 class FullscreenDialogLoader {
   static bool _isDialogOpen = false;
 
-  void show(BuildContext context) {
+  static void show(BuildContext context) {
     if (!_isDialogOpen) {
       _isDialogOpen = true;
 
