@@ -132,7 +132,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             isPasswordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: AppColor.greyColor,
+                            color: isPasswordVisible
+                                ? AppColor.whiteColor
+                                : AppColor.greyColor,
                           ),
                         ),
                       ),
