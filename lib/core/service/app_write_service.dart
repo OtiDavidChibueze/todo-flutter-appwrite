@@ -1,12 +1,12 @@
 import 'package:appwrite/appwrite.dart';
 import '../constants/app_write_strings.dart';
 
-class AppWriteProvider {
+class AppWriteService {
   Client client = Client();
   Account? account;
   Databases? database;
 
-  AppWriteProvider() {
+  AppWriteService() {
     client
         .setEndpoint(AppWriteStrings.endpoint)
         .setProject(AppWriteStrings.projectId)

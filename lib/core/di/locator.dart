@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:todo_flutter_appwrite/core/storage/session_manager.dart';
-import 'package:todo_flutter_appwrite/features/auth/domain/usecases/login_user_usecase.dart';
-import '../provider/app_write_provider.dart';
+import '../service/local_storage_service.dart';
+import '../../features/auth/domain/usecases/login_user_usecase.dart';
+import '../service/app_write_service.dart';
 import '../../features/auth/data/repository/auth_repository_impl.dart';
 import '../../features/auth/data/source/remote/auth_appwrite_remote_source.dart';
 import '../../features/auth/domain/repository/auth_repository.dart';
@@ -12,22 +12,22 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart';
 final GetIt locator = GetIt.I;
 
 void setUpLocator() {
-  locator.registerLazySingleton<AppWriteProvider>(() => AppWriteProvider());
+  locator.registerLazySingleton(() => AppWriteService());
 
   locator.registerLazySingleton(() => InternetConnectionChecker.I);
 
   _initAuth();
 
-  locator.registerLazySingleton(() => SessionManager());
+  locator.registerLazySingleton(() => LocalStorageService());
 }
 
 _initAuth() {
   locator
     ..registerLazySingleton<AuthAppwriteRemoteSource>(
       () => AuthAppwriteRemoteSourceImpl(
-        appWriteProvider: locator(),
+        appWriteService: locator(),
         internetConnectionChecker: locator(),
-        sessionManager: locator(),
+        localStorageService: locator(),
       ),
     )
     ..registerLazySingleton<AuthRepository>(

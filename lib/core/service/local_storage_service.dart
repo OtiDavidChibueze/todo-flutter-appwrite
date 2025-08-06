@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
+import '../constants/app_string.dart';
 
-class SessionManager {
-  static const String _boxName = 'sessionBox';
-  static const String _key = 'session_key';
+class LocalStorageService {
+  static const String _boxName = AppString.boxName;
+  static const String _key = AppString.boxKey;
 
   late final Box _box;
 
