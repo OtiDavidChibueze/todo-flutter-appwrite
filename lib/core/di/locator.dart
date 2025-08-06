@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:todo_flutter_appwrite/core/storage/session_manager.dart';
+import 'package:todo_flutter_appwrite/features/auth/domain/usecases/login_user_usecase.dart';
 import '../provider/app_write_provider.dart';
 import '../../features/auth/data/repository/auth_repository_impl.dart';
 import '../../features/auth/data/source/remote/auth_appwrite_remote_source.dart';
@@ -15,6 +17,8 @@ void setUpLocator() {
   locator.registerLazySingleton(() => InternetConnectionChecker.I);
 
   _initAuth();
+
+  locator.registerLazySingleton(() => SessionManager());
 }
 
 _initAuth() {
@@ -30,5 +34,9 @@ _initAuth() {
       () => AuthRepositoryImpl(authAppwriteRemoteSource: locator()),
     )
     ..registerFactory(() => RegisterUserUsecase(authRepository: locator()))
-    ..registerLazySingleton(() => AuthBloc(registerUserUsecase: locator()));
+    ..registerFactory(() => LoginUserUseCase(authRepository: locator()))
+    ..registerLazySingleton(
+      () =>
+          AuthBloc(registerUserUsecase: locator(), loginUserUseCase: locator()),
+    );
 }
