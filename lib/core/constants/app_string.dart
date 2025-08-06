@@ -15,4 +15,7 @@ class AppString {
       'Password must be greater than 7 and less than 265!';
   static const String accountService = 'Account service unavailable';
   static const String internetConnection = 'No internet connection!';
+  static const String loginSuccessMsg = 'login successfully!';
+  static const String boxName = 'session-manager';
+  static const String boxKey = 'session';
 }
