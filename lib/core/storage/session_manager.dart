@@ -1,27 +1,28 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive/hive.dart';
 
 class SessionManager {
-  static final String _boxName = dotenv.env['HIVE_SESSION_BOX_NAME'] ?? '';
-  static final String _key = dotenv.env['HIVE_SESSION_BOX_KEY'] ?? '';
+  static const String _boxName = 'sessionBox';
+  static const String _key = 'session_key';
+
+  late final Box _box;
+
+  Future<void> init() async {
+    _box = await Hive.openBox(_boxName);
+  }
 
   Future<void> saveSession(String session) async {
-    final openBox = await Hive.openBox(_boxName);
-    openBox.put(_key, session);
+    await _box.put(_key, session);
   }
 
-  Future<String?> getSession(String key) async {
-    final openBox = await Hive.openBox(_boxName);
-    return openBox.get(key);
+  String? getSession() {
+    return _box.get(_key);
   }
 
-  Future<bool> hasSession(String key) async {
-    final openBox = await Hive.openBox(_boxName);
-    return openBox.containsKey(key);
+  bool hasSession() {
+    return _box.containsKey(_key);
   }
 
-  Future<void> deleteSession(String key) async {
-    final openBox = await Hive.openBox(_boxName);
-    openBox.delete(key);
+  Future<void> deleteSession() async {
+    await _box.delete(_key);
   }
 }
