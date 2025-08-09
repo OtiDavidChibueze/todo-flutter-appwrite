@@ -26,4 +26,8 @@ class AppString {
   static const String emailUsed = 'Email already registered.';
   static const String sessionExpired =
       ' Session expired. Clearing local session.';
+  static const String title = 'Title';
+  static const String description = 'Description';
+  static const String add = 'Add';
+  static const String todoAdded = 'Todo added to list!';
 }

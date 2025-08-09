@@ -10,8 +10,8 @@ import '../../../../core/constants/app_string.dart';
 import '../../../../core/utils/size_utils.dart';
 import '../../../../core/utils/validation/validators.dart';
 import 'register.dart';
-import '../widgets/custom_button_widget.dart';
-import '../widgets/custom_textfield_widget.dart';
+import '../../../../core/common/widgets/custom_button_widget.dart';
+import '../../../../core/common/widgets/custom_textfield_widget.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = 'login';

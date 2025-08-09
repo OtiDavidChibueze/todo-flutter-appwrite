@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_flutter_appwrite/core/service/local_storage_service.dart';
+import 'package:todo_flutter_appwrite/features/todo/presentation/bloc/todo_bloc.dart';
 import 'app.dart';
 import 'core/di/locator.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
@@ -24,7 +25,10 @@ void main() async {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => locator<AuthBloc>())],
+        providers: [
+          BlocProvider(create: (context) => locator<AuthBloc>()),
+          BlocProvider(create: (context) => locator<TodoBloc>()),
+        ],
         child: const MyApp(),
       ),
     ),

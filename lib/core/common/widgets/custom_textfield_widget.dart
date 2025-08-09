@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/common/theme/app_color.dart';
+import '../theme/app_color.dart';
 
 class CustomTextfieldWidget extends StatelessWidget {
   final TextEditingController? controller;
@@ -8,6 +8,7 @@ class CustomTextfieldWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final String hintText;
   final Widget? suffix;
+  final int? maxLines;
 
   const CustomTextfieldWidget({
     super.key,
@@ -17,11 +18,13 @@ class CustomTextfieldWidget extends StatelessWidget {
     this.validator,
     required this.hintText,
     this.suffix,
+    this.maxLines = 1,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,

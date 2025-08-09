@@ -10,8 +10,8 @@ import '../../../../core/utils/size_utils.dart';
 import '../../../../core/utils/validation/validators.dart';
 import '../bloc/auth_bloc.dart';
 import 'login.dart';
-import '../widgets/custom_button_widget.dart';
-import '../widgets/custom_textfield_widget.dart';
+import '../../../../core/common/widgets/custom_button_widget.dart';
+import '../../../../core/common/widgets/custom_textfield_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String routeName = 'register';
