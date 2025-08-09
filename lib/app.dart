@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/pages/todo.dart';
+import 'package:todo_flutter_appwrite/features/todo/presentation/pages/todo.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/login.dart';
 import 'core/common/theme/app_theme.dart';
