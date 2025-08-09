@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:todo_flutter_appwrite/core/service/local_storage_service.dart';
 import 'app.dart';
-import 'core/constants/app_string.dart';
 import 'core/di/locator.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -15,7 +14,7 @@ void main() async {
   await dotenv.load();
 
   await Hive.initFlutter();
-  await Hive.openBox(AppString.boxName);
+  await LocalStorageService.init();
 
   setUpLocator();
 
