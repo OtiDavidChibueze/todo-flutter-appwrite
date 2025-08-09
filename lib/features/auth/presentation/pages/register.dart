@@ -90,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       VSpace(20),
 
                       CustomTextfieldWidget(
-                        hintText: AppString.fullname,
+                        hintText: AppString.firstname,
                         controller: _firstnameCtrl,
                         keyboardType: TextInputType.name,
                         validator: (value) => Validations.isEmpty(value),

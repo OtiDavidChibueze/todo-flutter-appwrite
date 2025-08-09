@@ -1,7 +1,7 @@
 class AppString {
   static const String failure = 'Sorry, An unexpected error occured!';
   static const String required = 'Field is required!';
-  static const String fullname = 'Full Name';
+  static const String firstname = 'First Name';
   static const String lastname = 'Last Name';
   static const String email = 'Email';
   static const String emailValidation = 'Input a valid email!';
@@ -13,9 +13,17 @@ class AppString {
   static const String registerSuccessMsg = 'Success, please login!';
   static const String passwordValidation =
       'Password must be greater than 7 and less than 265!';
-  static const String accountService = 'Account service unavailable';
+  static const String account_database =
+      'Account service or Database unavailable';
   static const String internetConnection = 'No internet connection!';
-  static const String loginSuccessMsg = 'login successfully!';
+  static const String loginSuccessMsg = 'logged in!';
   static const String boxName = 'session-manager';
-  static const String boxKey = 'session';
+  static const String sessionKey = 'auth_session';
+  static const String userId = 'Oti-David-Chibueze';
+  static const String userNotFound = 'User not found';
+  static const String noActiveSession = 'No active user session found!';
+  static const String noSessionFound = 'No saved session found locally.';
+  static const String emailUsed = 'Email already registered.';
+  static const String sessionExpired =
+      ' Session expired. Clearing local session.';
 }

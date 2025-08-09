@@ -3,27 +3,22 @@ import '../constants/app_string.dart';
 
 class LocalStorageService {
   static const String _boxName = AppString.boxName;
-  static const String _key = AppString.boxKey;
 
-  late final Box _box;
+  final Box _box = Hive.box(_boxName);
 
-  Future<void> init() async {
-    _box = await Hive.openBox(_boxName);
+  Future<void> saveSession(String key, String session) async {
+    await _box.put(key, session);
   }
 
-  Future<void> saveSession(String session) async {
-    await _box.put(_key, session);
+  String? getSession(String key) {
+    return _box.get(key);
   }
 
-  String? getSession() {
-    return _box.get(_key);
+  bool hasSession(String key) {
+    return _box.containsKey(key);
   }
 
-  bool hasSession() {
-    return _box.containsKey(_key);
-  }
-
-  Future<void> deleteSession() async {
-    await _box.delete(_key);
+  Future<void> deleteSession(String key) async {
+    await _box.delete(key);
   }
 }

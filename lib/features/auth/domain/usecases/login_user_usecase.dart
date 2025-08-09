@@ -1,18 +1,19 @@
 import 'package:fpdart/fpdart.dart';
 import '../entities/user_entity.dart';
+
 import '../../../../core/error/failure.dart';
 import '../../../../core/usecases/use_cases.dart';
-import '../../data/dtos/register_dto.dart';
+import '../../data/dtos/login_dto.dart';
 import '../repository/auth_repository.dart';
 
-class RegisterUserUsecase implements UseCases<UserEntity, RegisterRequestDto> {
+class LoginUserUseCase extends UseCases<UserEntity, LoginRequestDto> {
   final AuthRepository _authRepository;
 
-  RegisterUserUsecase({required AuthRepository authRepository})
+  LoginUserUseCase({required AuthRepository authRepository})
     : _authRepository = authRepository;
 
   @override
-  Future<Either<Failure, UserEntity>> call(RegisterRequestDto req) async {
-    return await _authRepository.registerUser(req);
+  Future<Either<Failure, UserEntity>> call(LoginRequestDto req) async {
+    return await _authRepository.loginUser(req);
   }
 }

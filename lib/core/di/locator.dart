@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import '../../features/auth/domain/usecases/get_logged_in_user.dart';
 import '../service/local_storage_service.dart';
 import '../../features/auth/domain/usecases/login_user_usecase.dart';
 import '../service/app_write_service.dart';
@@ -11,7 +12,7 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 final GetIt locator = GetIt.I;
 
-void setUpLocator() {
+void setUpLocator() async {
   locator.registerLazySingleton(() => AppWriteService());
 
   locator.registerLazySingleton(() => InternetConnectionChecker.I);
@@ -35,8 +36,12 @@ _initAuth() {
     )
     ..registerFactory(() => RegisterUserUsecase(authRepository: locator()))
     ..registerFactory(() => LoginUserUseCase(authRepository: locator()))
+    ..registerFactory(() => GetLoggedInUserUseCase(authRepository: locator()))
     ..registerLazySingleton(
-      () =>
-          AuthBloc(registerUserUsecase: locator(), loginUserUseCase: locator()),
+      () => AuthBloc(
+        registerUserUsecase: locator(),
+        loginUserUseCase: locator(),
+        getLoggedInUser: locator(),
+      ),
     );
 }

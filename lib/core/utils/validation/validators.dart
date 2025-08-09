@@ -17,8 +17,9 @@ class Validations {
   static String? password(String? value) {
     if (value == null || value.isEmpty) return AppString.required;
 
-    if (value.length <= 8 || value.length >= 265)
+    if (value.length <= 8 || value.length >= 265) {
       return AppString.passwordValidation;
+    }
 
     return null;
   }

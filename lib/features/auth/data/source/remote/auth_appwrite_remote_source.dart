@@ -1,56 +1,67 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import '../../dtos/register_dto.dart';
 import '../../../../../core/constants/app_string.dart';
-import '../../model/user_model.dart';
 import '../../../../../core/constants/app_write_strings.dart';
 import '../../../../../core/error/exception.dart';
 import '../../../../../core/logger/app_logger.dart';
-import '../../../../../core/provider/app_write_provider.dart';
+import '../../../../../core/service/app_write_service.dart';
+import '../../../../../core/service/local_storage_service.dart';
+import '../../dtos/login_dto.dart';
+import '../../dtos/register_dto.dart';
+import '../../model/user_model.dart';
 
-abstract interface class AuthAppwriteRemoteSource {
+abstract class AuthAppwriteRemoteSource {
   Future<UserModel> registerUser(RegisterRequestDto req);
+  Future<UserModel> loginUser(LoginRequestDto req);
+  Future<UserModel?> getLoggedInUser();
 }
 
 class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
-  final AppWriteProvider _appWriteProvider;
+  final AppWriteService _appWriteService;
   final InternetConnectionChecker _internetConnectionChecker;
+  final LocalStorageService _localStorageService;
 
   AuthAppwriteRemoteSourceImpl({
-    required AppWriteProvider appWriteProvider,
+    required AppWriteService appWriteService,
     required InternetConnectionChecker internetConnectionChecker,
-  }) : _appWriteProvider = appWriteProvider,
-       _internetConnectionChecker = internetConnectionChecker;
+    required LocalStorageService localStorageService,
+  }) : _appWriteService = appWriteService,
+       _internetConnectionChecker = internetConnectionChecker,
+       _localStorageService = localStorageService;
 
   @override
   Future<UserModel> registerUser(RegisterRequestDto req) async {
     try {
+      // Internet check
       if (!await _internetConnectionChecker.hasConnection) {
         throw ServerException(message: AppString.internetConnection);
       }
 
-      final account = _appWriteProvider.account;
-      final db = _appWriteProvider.database;
+      final account = _appWriteService.account;
+      final db = _appWriteService.database;
 
-      if (account == null) {
-        throw ServerException(message: AppString.accountService);
+      if (account == null || db == null) {
+        throw ServerException(message: AppString.account_database);
       }
 
+      // Create Appwrite account
       final createdUser = await account.create(
         userId: ID.unique(),
         email: req.email,
         password: req.password,
-        name: '${req.fullname} ${req.lastname}',
+        name: '${req.firstname} ${req.lastname}',
       );
 
-      final document = await db!.createDocument(
+      // Create user document in DB
+      final document = await db.createDocument(
         databaseId: AppWriteStrings.databaseId,
         collectionId: AppWriteStrings.userCollectionId,
         documentId: createdUser.$id,
         data: {
           'id': createdUser.$id,
-          'fullname': '${req.fullname} ${req.lastname}',
-          'firstname': req.fullname,
+          'fullname': '${req.firstname} ${req.lastname}',
+          'firstname': req.firstname,
           'lastname': req.lastname,
           'email': req.email,
           'profileImage': '',
@@ -59,9 +70,101 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
 
       AppLogger.i('User registered successfully: ${document.toMap()}');
       return UserModel.fromMap(document.data);
+    } on AppwriteException catch (e) {
+      if (e.code == 409) {
+        throw ServerException(message: AppString.emailUsed);
+      }
+      rethrow;
     } catch (e) {
-      AppLogger.e(e.toString());
+      AppLogger.e('Registration error: $e');
       throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> loginUser(LoginRequestDto req) async {
+    try {
+      if (!await _internetConnectionChecker.hasConnection) {
+        throw ServerException(message: AppString.internetConnection);
+      }
+
+      final account = _appWriteService.account;
+      final db = _appWriteService.database;
+
+      if (account == null || db == null) {
+        throw ServerException(message: AppString.account_database);
+      }
+
+      final session = await account.createEmailPasswordSession(
+        email: req.email,
+        password: req.password,
+      );
+
+      await _localStorageService.saveSession(AppString.sessionKey, session.$id);
+      await _localStorageService.saveSession(session.userId, session.userId);
+
+      AppLogger.i('User logged in: ${session.toMap()}');
+
+      final userDoc = await db.getDocument(
+        databaseId: AppWriteStrings.databaseId,
+        collectionId: AppWriteStrings.userCollectionId,
+        documentId: session.userId,
+      );
+
+      return UserModel.fromMap(userDoc.data);
+    } catch (e) {
+      AppLogger.e('Login error: $e');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel?> getLoggedInUser() async {
+    try {
+      if (!await _internetConnectionChecker.hasConnection) {
+        throw ServerException(message: AppString.internetConnection);
+      }
+
+      final account = _appWriteService.account;
+      final db = _appWriteService.database;
+
+      if (account == null || db == null) {
+        throw ServerException(message: AppString.account_database);
+      }
+
+      final savedSessionId = _localStorageService.getSession(
+        AppString.sessionKey,
+      );
+
+      if (savedSessionId == null) {
+        AppLogger.w(AppString.noSessionFound);
+        return null;
+      }
+
+      Session session;
+      try {
+        session = await account.getSession(sessionId: savedSessionId);
+      } on AppwriteException catch (e) {
+        if (e.code == 401) {
+          AppLogger.w(AppString.sessionExpired);
+          await _localStorageService.deleteSession(AppString.sessionKey);
+          return null;
+        }
+        rethrow;
+      }
+
+      final userDoc = await db.getDocument(
+        databaseId: AppWriteStrings.databaseId,
+        collectionId: AppWriteStrings.userCollectionId,
+        documentId: session.userId,
+      );
+
+      AppLogger.i('Fetched logged in user: ${userDoc.toMap()}');
+
+      return UserModel.fromMap(userDoc.data);
+    } catch (e) {
+      AppLogger.e('Error getting logged-in user: $e');
+      return null;
     }
   }
 }

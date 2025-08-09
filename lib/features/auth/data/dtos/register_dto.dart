@@ -1,11 +1,11 @@
 class RegisterRequestDto {
-  final String fullname;
+  final String firstname;
   final String lastname;
   final String email;
   final String password;
 
   RegisterRequestDto({
-    required this.fullname,
+    required this.firstname,
     required this.lastname,
     required this.email,
     required this.password,
@@ -13,7 +13,7 @@ class RegisterRequestDto {
 
   Map<String, dynamic> toMap() {
     return {
-      'fullname': fullname,
+      'firstname': firstname,
       'lastname': lastname,
       'email': email,
       'password': password,
