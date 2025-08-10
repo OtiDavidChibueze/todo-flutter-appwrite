@@ -57,7 +57,12 @@ class _TodoState extends State<TodoPage> {
             if (state is TodoSuccessState) {
               return state.todos.isNotEmpty
                   ? _buildTodoList(context: context, todos: state.todos)
-                  : Center(child: Text(AppString.todoEmpty));
+                  : Center(
+                      child: Text(
+                        AppString.todoEmpty,
+                        style: TextStyle(fontSize: sp(20)),
+                      ),
+                    );
             }
 
             return SizedBox();
