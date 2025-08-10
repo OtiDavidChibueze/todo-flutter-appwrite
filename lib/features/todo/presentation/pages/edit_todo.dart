@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -58,7 +59,28 @@ class _AddTodoState extends State<EditTodo> {
           title: Text('Edit Todo'),
           centerTitle: true,
           backgroundColor: AppColor.appbarColor,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.delete))],
+          actions: [
+            IconButton(
+              onPressed: () {
+                AwesomeDialog(
+                  context: context,
+                  dismissOnBackKeyPress: false,
+                  dismissOnTouchOutside: false,
+                  dialogType: DialogType.warning,
+                  animType: AnimType.bottomSlide,
+                  title: AppString.deleteTodo,
+                  desc: AppString.deleteConfirm,
+                  btnCancelOnPress: () {},
+                  btnOkOnPress: () {
+                    context.read<TodoBloc>().add(
+                      DeleteTodoEvent(todoId: widget.editTodo.id),
+                    );
+                  },
+                ).show();
+              },
+              icon: Icon(Icons.delete),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(

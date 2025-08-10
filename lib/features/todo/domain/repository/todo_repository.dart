@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:todo_flutter_appwrite/features/todo/data/dto/delete_todo_request.dart';
 import '../../data/dto/edit_todo_request.dart';
 import '../../../../core/error/failure.dart';
 import '../../data/dto/add_todo_request.dart';
@@ -8,4 +9,5 @@ abstract interface class TodoRepository {
   Future<Either<Failure, List<TodoEntity>>> addTodo(AddTodoRequest req);
   Future<Either<Failure, List<TodoEntity>>> getTodos();
   Future<Either<Failure, List<TodoEntity>>> editTodo(EditTodoRequest req);
+  Future<Either<Failure, List<TodoEntity>>> deleteTodo(DeleteTodoRequest req);
 }

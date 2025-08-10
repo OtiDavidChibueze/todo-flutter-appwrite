@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:todo_flutter_appwrite/features/todo/data/dto/delete_todo_request.dart';
 import '../dto/edit_todo_request.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
@@ -41,5 +42,12 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<Either<Failure, List<TodoEntity>>> editTodo(EditTodoRequest req) {
     return _getTodo(() async => await _todoAppwriteRemoteSource.editTodos(req));
+  }
+
+  @override
+  Future<Either<Failure, List<TodoEntity>>> deleteTodo(DeleteTodoRequest req) {
+    return _getTodo(
+      () async => await _todoAppwriteRemoteSource.deleteTodo(req),
+    );
   }
 }

@@ -33,4 +33,7 @@ class AppString {
   static const String todoEmpty = 'No todo task for today :)';
   static const String update = 'Update';
   static const String todoUpdate = 'Todo task has be updated!';
+  static const String deleteTodo = 'Delete Task :(';
+  static const String deleteConfirm =
+      'Are you sure  you want to delete this task?';
 }

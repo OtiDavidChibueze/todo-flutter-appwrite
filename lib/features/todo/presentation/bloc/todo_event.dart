@@ -24,3 +24,9 @@ final class EditTodoEvent extends TodoEvent {
     required this.isCompleted,
   });
 }
+
+final class DeleteTodoEvent extends TodoEvent {
+  final String todoId;
+
+  DeleteTodoEvent({required this.todoId});
+}
