@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/todo/domain/entities/todo_entity.dart';
+import '../../features/todo/presentation/pages/edit_todo.dart';
 import '../../features/todo/presentation/pages/add_todo.dart';
 import '../../features/todo/presentation/pages/todo.dart';
 import '../../features/auth/presentation/pages/login.dart';
@@ -38,6 +40,16 @@ final class AppRoutes {
         path: '/add-todo',
         name: AddTodo.routeName,
         builder: (context, state) => AddTodo(),
+      ),
+
+      GoRoute(
+        path: '/edit-todo',
+        name: EditTodo.routeName,
+        builder: (context, state) {
+          final todo = state.extra as TodoEntity;
+
+          return EditTodo(editTodo: todo);
+        },
       ),
     ],
     errorPageBuilder: (context, state) => MaterialPage(child: SplashPage()),

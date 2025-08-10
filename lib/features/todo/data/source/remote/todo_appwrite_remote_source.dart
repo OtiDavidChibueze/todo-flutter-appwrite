@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import '../../dto/edit_todo_request.dart';
 import '../../../../../core/constants/app_string.dart';
 import '../../../../../core/constants/app_write_strings.dart';
 import '../../../../../core/error/exception.dart';
@@ -12,6 +13,7 @@ import '../../model/todo_model.dart';
 abstract interface class TodoAppwriteRemoteSource {
   Future<List<TodoModel>> addTodo(AddTodoRequest req);
   Future<List<TodoModel>> getTodos();
+  Future<List<TodoModel>> editTodos(EditTodoRequest req);
 }
 
 class TodoAppwriteRemoteSourceImpl implements TodoAppwriteRemoteSource {
@@ -107,6 +109,59 @@ class TodoAppwriteRemoteSourceImpl implements TodoAppwriteRemoteSource {
       );
 
       AppLogger.i('Fetch Todos: ${getTodos.toMap()}');
+
+      return getTodos.documents
+          .map((doc) => TodoModel.fromMap(doc.data))
+          .toList();
+    } catch (e) {
+      AppLogger.e('Get todos Error: $e');
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<TodoModel>> editTodos(EditTodoRequest req) async {
+    try {
+      if (!await _internetConnectionChecker.hasConnection) {
+        throw ServerException(message: AppString.internetConnection);
+      }
+
+      final account = _appWriteService.account;
+      final db = _appWriteService.database;
+
+      if (account == null || db == null) {
+        throw ServerException(message: AppString.account_database);
+      }
+
+      final loggedInUserId = _localStorageService.getSession(AppString.userId);
+
+      if (loggedInUserId == null) {
+        throw ServerException(message: AppString.noActiveSession);
+      }
+
+      final updateTodo = await db.updateDocument(
+        databaseId: AppWriteStrings.databaseId,
+        collectionId: AppWriteStrings.todoCollectionId,
+        documentId: req.todoId,
+        data: {
+          'title': req.title,
+          'description': req.description,
+          'isCompleted': req.isCompleted,
+        },
+      );
+
+      AppLogger.i('update Todo: ${updateTodo.toMap()}');
+
+      final getTodos = await db.listDocuments(
+        databaseId: AppWriteStrings.databaseId,
+        collectionId: AppWriteStrings.todoCollectionId,
+        queries: [
+          Query.equal(
+            'userId',
+            _localStorageService.getSession(AppString.userId),
+          ),
+        ],
+      );
 
       return getTodos.documents
           .map((doc) => TodoModel.fromMap(doc.data))

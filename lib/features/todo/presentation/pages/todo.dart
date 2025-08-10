@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'edit_todo.dart';
 import '../../../../core/common/theme/app_color.dart';
 import '../../../../core/constants/app_string.dart';
 import '../../../../core/utils/size_utils.dart';
@@ -36,8 +37,8 @@ class _TodoState extends State<TodoPage> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.person, color: AppColor.whiteColor, size: 30),
+              onPressed: () {}, // todo navigate to profile page
+              icon: Icon(Icons.person),
             ),
           ],
         ),
@@ -63,16 +64,13 @@ class _TodoState extends State<TodoPage> {
           },
         ),
 
-        floatingActionButton: Transform.scale(
-          scale: 0.9,
-          child: FloatingActionButton(
-            onPressed: () => context.pushNamed(AddTodo.routeName),
-            backgroundColor: AppColor.appColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(sr(50)),
-            ),
-            child: Icon(Icons.add, color: AppColor.whiteColor),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.pushNamed(AddTodo.routeName),
+          backgroundColor: AppColor.appColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(sr(50)),
           ),
+          child: Icon(Icons.add, color: AppColor.whiteColor),
         ),
       ),
     );
@@ -88,7 +86,7 @@ class _TodoState extends State<TodoPage> {
         final todo = todos[index];
 
         return ListTile(
-          onTap: () {}, // todo -> navigate to edit todo page
+          onTap: () => context.pushNamed(EditTodo.routeName, extra: todo),
           leading: CircleAvatar(
             radius: sr(10),
             backgroundColor: todo.isCompleted

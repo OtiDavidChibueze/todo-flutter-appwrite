@@ -10,3 +10,17 @@ final class AddTodoEvent extends TodoEvent {
 }
 
 final class GetTodosEvent extends TodoEvent {}
+
+final class EditTodoEvent extends TodoEvent {
+  final String todoId;
+  final String title;
+  final String description;
+  final bool isCompleted;
+
+  EditTodoEvent({
+    required this.todoId,
+    required this.title,
+    required this.description,
+    required this.isCompleted,
+  });
+}

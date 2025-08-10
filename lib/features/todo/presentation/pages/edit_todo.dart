@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../domain/entities/todo_entity.dart';
 import '../../../../core/common/theme/app_color.dart';
 import '../../../../core/common/widgets/custom_textfield_widget.dart';
 import '../../../../core/constants/app_string.dart';
@@ -11,19 +12,30 @@ import '../../../../core/utils/validation/validators.dart';
 import '../../../../core/common/widgets/custom_button_widget.dart';
 import '../bloc/todo_bloc.dart';
 
-class AddTodo extends StatefulWidget {
-  static const String routeName = 'add-todo';
+class EditTodo extends StatefulWidget {
+  static const String routeName = 'edit-todo';
 
-  const AddTodo({super.key});
+  final TodoEntity editTodo;
+
+  const EditTodo({super.key, required this.editTodo});
 
   @override
-  State<AddTodo> createState() => _AddTodoState();
+  State<EditTodo> createState() => _AddTodoState();
 }
 
-class _AddTodoState extends State<AddTodo> {
-  final GlobalKey<FormState> _addTodoFormKey = GlobalKey<FormState>();
-  final TextEditingController _title = TextEditingController();
-  final TextEditingController _description = TextEditingController();
+class _AddTodoState extends State<EditTodo> {
+  final GlobalKey<FormState> _editTodoFormKey = GlobalKey<FormState>();
+  late TextEditingController _title;
+  late TextEditingController _description;
+  late bool isCompleted;
+
+  @override
+  initState() {
+    super.initState();
+    _title = TextEditingController(text: widget.editTodo.title);
+    _description = TextEditingController(text: widget.editTodo.description);
+    isCompleted = widget.editTodo.isCompleted;
+  }
 
   @override
   void dispose() {
@@ -43,15 +55,16 @@ class _AddTodoState extends State<AddTodo> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add Todo'),
+          title: Text('Edit Todo'),
           centerTitle: true,
           backgroundColor: AppColor.appbarColor,
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.delete))],
         ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: w(16), vertical: h(16)),
             child: Form(
-              key: _addTodoFormKey,
+              key: _editTodoFormKey,
               child: BlocConsumer<TodoBloc, TodoState>(
                 listener: (context, state) {
                   if (state is TodoLoadingState) {
@@ -61,7 +74,7 @@ class _AddTodoState extends State<AddTodo> {
                   if (state is TodoSuccessState) {
                     FullscreenDialogLoader.cancel(context);
                     _clear();
-                    CustomSnackbar.success(context, AppString.todoAdded);
+                    CustomSnackbar.success(context, AppString.todoUpdate);
                     context.pop();
                   }
 
@@ -91,16 +104,31 @@ class _AddTodoState extends State<AddTodo> {
                         maxLines: null,
                       ),
 
+                      VSpace(20),
+
+                      Checkbox(
+                        activeColor: AppColor.appColor,
+                        checkColor: AppColor.whiteColor,
+                        value: isCompleted,
+                        onChanged: (value) {
+                          setState(() {
+                            isCompleted = value!;
+                          });
+                        },
+                      ),
+
                       VSpace(30),
 
                       CustomButtonWidget(
-                        btnText: AppString.add,
+                        btnText: AppString.update,
                         onPressed: () {
-                          if (_addTodoFormKey.currentState!.validate()) {
+                          if (_editTodoFormKey.currentState!.validate()) {
                             context.read<TodoBloc>().add(
-                              AddTodoEvent(
+                              EditTodoEvent(
+                                todoId: widget.editTodo.id,
                                 title: _title.text.trim(),
                                 description: _description.text.trim(),
+                                isCompleted: isCompleted,
                               ),
                             );
                           }

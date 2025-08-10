@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'core/service/local_storage_service.dart';
-import 'features/todo/presentation/bloc/todo_bloc.dart';
+
 import 'app.dart';
 import 'core/di/locator.dart';
+import 'core/service/local_storage_service.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/todo/presentation/bloc/todo_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

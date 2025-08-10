@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import '../../features/todo/domain/usecases/edit_todo_usecase.dart';
 import '../../features/todo/data/repository/todo_repository_impl.dart';
 import '../../features/todo/data/source/remote/todo_appwrite_remote_source.dart';
 import '../../features/todo/domain/repository/todo_repository.dart';
@@ -68,7 +69,12 @@ _initTodo() {
     )
     ..registerFactory(() => AddTodoUsecase(todoRepository: locator()))
     ..registerFactory(() => GetTodosUsecase(todoRepository: locator()))
+    ..registerFactory(() => EditTodoUsecase(todoRepository: locator()))
     ..registerLazySingleton(
-      () => TodoBloc(addTodoUsecase: locator(), getTodosUsecase: locator()),
+      () => TodoBloc(
+        addTodoUsecase: locator(),
+        getTodosUsecase: locator(),
+        editTodoUsecase: locator(),
+      ),
     );
 }

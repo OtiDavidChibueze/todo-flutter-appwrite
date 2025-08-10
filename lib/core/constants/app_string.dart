@@ -29,6 +29,8 @@ class AppString {
   static const String title = 'Title';
   static const String description = 'Description';
   static const String add = 'Add';
-  static const String todoAdded = 'Todo added to list!';
+  static const String todoAdded = 'New task added!';
   static const String todoEmpty = 'No todo task for today :)';
+  static const String update = 'Update';
+  static const String todoUpdate = 'Todo task has be updated!';
 }
