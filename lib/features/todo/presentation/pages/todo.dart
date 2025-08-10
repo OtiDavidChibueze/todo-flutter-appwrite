@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter_appwrite/features/auth/domain/entities/user_entity.dart';
+import 'package:todo_flutter_appwrite/features/auth/presentation/pages/profile.dart';
 import 'edit_todo.dart';
 import '../../../../core/common/theme/app_color.dart';
 import '../../../../core/constants/app_string.dart';
@@ -11,7 +13,10 @@ import 'add_todo.dart';
 
 class TodoPage extends StatefulWidget {
   static final String routeName = 'todo';
-  const TodoPage({super.key});
+
+  final UserEntity user;
+
+  const TodoPage({super.key, required this.user});
 
   @override
   State<TodoPage> createState() => _TodoState();
@@ -37,7 +42,8 @@ class _TodoState extends State<TodoPage> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () {}, // todo navigate to profile page
+              onPressed: () =>
+                  context.pushNamed(Profile.routeName, extra: widget.user),
               icon: Icon(Icons.person),
             ),
           ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter_appwrite/features/auth/domain/entities/user_entity.dart';
+import 'package:todo_flutter_appwrite/features/auth/presentation/pages/profile.dart';
 import '../../features/todo/domain/entities/todo_entity.dart';
 import '../../features/todo/presentation/pages/edit_todo.dart';
 import '../../features/todo/presentation/pages/add_todo.dart';
@@ -33,7 +35,11 @@ final class AppRoutes {
       GoRoute(
         path: '/todo',
         name: TodoPage.routeName,
-        builder: (context, state) => TodoPage(),
+        builder: (context, state) {
+          final user = state.extra as UserEntity;
+
+          return TodoPage(user: user);
+        },
       ),
 
       GoRoute(
@@ -49,6 +55,16 @@ final class AppRoutes {
           final todo = state.extra as TodoEntity;
 
           return EditTodo(editTodo: todo);
+        },
+      ),
+
+      GoRoute(
+        path: '/profile',
+        name: Profile.routeName,
+        builder: (context, state) {
+          final user = state.extra as UserEntity;
+
+          return Profile(user: user);
         },
       ),
     ],

@@ -27,9 +27,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is AuthSuccessState) {
-          AppRoutes.routes.goNamed(TodoPage.routeName);
+          AppRoutes.routes.goNamed(TodoPage.routeName, extra: state.user);
         } else if (state is AuthErrorState) {
           AppRoutes.routes.goNamed(LoginPage.routeName);
         }

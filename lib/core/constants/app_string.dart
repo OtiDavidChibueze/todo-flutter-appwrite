@@ -36,4 +36,7 @@ class AppString {
   static const String deleteTodo = 'Delete Task :(';
   static const String deleteConfirm =
       'Are you sure  you want to delete this task?';
+  static const String profile = 'Profile';
+  static const String logout = 'Logout';
+  static const String profileUpdated = 'Profile updated';
 }

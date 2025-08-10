@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:todo_flutter_appwrite/features/auth/data/dtos/edit_profile.dart';
 import '../../domain/entities/user_entity.dart';
 
 import '../dtos/login_dto.dart';
@@ -62,5 +63,12 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (_) {
       return Left(Failure(AppString.failure));
     }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> editProfile(EditProfileRequest req) {
+    return _getUser(
+      () async => await _authAppwriteRemoteSource.editProfile(req),
+    );
   }
 }

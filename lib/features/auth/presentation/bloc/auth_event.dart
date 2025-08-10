@@ -24,3 +24,15 @@ final class AuthLoginEvent extends AuthEvent {
 }
 
 final class AuthGetLoggedInUser extends AuthEvent {}
+
+final class AuthEditProfileEvent extends AuthEvent {
+  final String firstname;
+  final String lastname;
+  final String profileImage;
+
+  AuthEditProfileEvent({
+    required this.firstname,
+    required this.lastname,
+    required this.profileImage,
+  });
+}

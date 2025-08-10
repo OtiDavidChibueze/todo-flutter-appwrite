@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:todo_flutter_appwrite/features/auth/data/dtos/edit_profile.dart';
 import '../../../../../core/constants/app_string.dart';
 import '../../../../../core/constants/app_write_strings.dart';
 import '../../../../../core/error/exception.dart';
@@ -15,6 +16,7 @@ abstract class AuthAppwriteRemoteSource {
   Future<UserModel> registerUser(RegisterRequestDto req);
   Future<UserModel> loginUser(LoginRequestDto req);
   Future<UserModel?> getLoggedInUser();
+  Future<UserModel> editProfile(EditProfileRequest req);
 }
 
 class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
@@ -165,6 +167,46 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
     } catch (e) {
       AppLogger.e('Error getting logged-in user: $e');
       return null;
+    }
+  }
+
+  @override
+  Future<UserModel> editProfile(EditProfileRequest req) async {
+    try {
+      if (!await _internetConnectionChecker.hasConnection) {
+        throw ServerException(message: AppString.internetConnection);
+      }
+
+      final account = _appWriteService.account;
+      final db = _appWriteService.database;
+
+      if (account == null || db == null) {
+        throw ServerException(message: AppString.account_database);
+      }
+
+      final loggedInUser = _localStorageService.getSession(AppString.userId);
+
+      if (loggedInUser == null) {
+        throw ServerException(message: AppString.noActiveSession);
+      }
+
+      final updateUser = await db.updateDocument(
+        databaseId: AppWriteStrings.databaseId,
+        collectionId: AppWriteStrings.userCollectionId,
+        documentId: loggedInUser,
+        data: {
+          'firstname': req.firstname,
+          'lastname': req.lastname,
+          'profileImage': req.profileImage,
+        },
+      );
+
+      AppLogger.i('Updated user: ${updateUser.toMap()}');
+
+      return UserModel.fromMap(updateUser.data);
+    } catch (e) {
+      AppLogger.e('Error getting logged-in user: $e');
+      throw ServerException(message: e.toString());
     }
   }
 }

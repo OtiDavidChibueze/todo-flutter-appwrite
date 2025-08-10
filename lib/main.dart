@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
 
 import 'app.dart';
 import 'core/di/locator.dart';
@@ -12,6 +14,10 @@ import 'features/todo/presentation/bloc/todo_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(statusBarColor: AppColor.transparentColor),
+  );
 
   await dotenv.load();
 

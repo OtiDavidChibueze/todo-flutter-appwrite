@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:todo_flutter_appwrite/features/auth/domain/usecases/edit_profile.dart';
 import 'package:todo_flutter_appwrite/features/todo/domain/usecases/delete_todo_usecase.dart';
 import '../../features/todo/domain/usecases/edit_todo_usecase.dart';
 import '../../features/todo/data/repository/todo_repository_impl.dart';
@@ -47,11 +48,13 @@ _initAuth() {
     ..registerFactory(() => RegisterUserUsecase(authRepository: locator()))
     ..registerFactory(() => LoginUserUseCase(authRepository: locator()))
     ..registerFactory(() => GetLoggedInUserUseCase(authRepository: locator()))
+    ..registerFactory(() => EditProfileUseCase(authRepository: locator()))
     ..registerLazySingleton(
       () => AuthBloc(
         registerUserUsecase: locator(),
         loginUserUseCase: locator(),
         getLoggedInUser: locator(),
+        editProfileUseCase: locator(),
       ),
     );
 }
