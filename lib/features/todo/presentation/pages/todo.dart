@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
-import 'package:todo_flutter_appwrite/core/utils/size_utils.dart';
-import 'package:todo_flutter_appwrite/features/todo/presentation/pages/add_todo.dart';
+import '../../../../core/common/theme/app_color.dart';
+import '../../../../core/constants/app_string.dart';
+import '../../../../core/utils/size_utils.dart';
+import '../../domain/entities/todo_entity.dart';
+import '../bloc/todo_bloc.dart';
+import 'add_todo.dart';
 
 class TodoPage extends StatefulWidget {
   static final String routeName = 'todo';
@@ -13,6 +17,13 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoState extends State<TodoPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<TodoBloc>().add(GetTodosEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +41,27 @@ class _TodoState extends State<TodoPage> {
             ),
           ],
         ),
-        body: Center(child: Text('Home Page')),
+        body: BlocBuilder<TodoBloc, TodoState>(
+          builder: (context, state) {
+            if (state is TodoLoadingState) {
+              return Center(
+                child: CircularProgressIndicator(color: AppColor.appColor),
+              );
+            }
+
+            if (state is TodoErrorState) {
+              return Center(child: Text(state.errorMessage));
+            }
+
+            if (state is TodoSuccessState) {
+              return state.todos.isNotEmpty
+                  ? _buildTodoList(context: context, todos: state.todos)
+                  : Center(child: Text(AppString.todoEmpty));
+            }
+
+            return SizedBox();
+          },
+        ),
 
         floatingActionButton: Transform.scale(
           scale: 0.9,
@@ -44,6 +75,30 @@ class _TodoState extends State<TodoPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTodoList({
+    required BuildContext context,
+    required List<TodoEntity> todos,
+  }) {
+    return ListView.builder(
+      itemCount: todos.length,
+      itemBuilder: (context, index) {
+        final todo = todos[index];
+
+        return ListTile(
+          onTap: () {}, // todo -> navigate to edit todo page
+          leading: CircleAvatar(
+            radius: sr(10),
+            backgroundColor: todo.isCompleted
+                ? AppColor.snackbarGreen
+                : AppColor.snackbarRed,
+          ),
+          title: Text(todo.title),
+          subtitle: Text(todo.description),
+        );
+      },
     );
   }
 }

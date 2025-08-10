@@ -1,10 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:todo_flutter_appwrite/features/todo/data/repository/todo_repository_impl.dart';
-import 'package:todo_flutter_appwrite/features/todo/data/source/remote/todo_appwrite_remote_source.dart';
-import 'package:todo_flutter_appwrite/features/todo/domain/repository/todo_repository.dart';
-import 'package:todo_flutter_appwrite/features/todo/domain/usecases/add_todo_usecase.dart';
-import 'package:todo_flutter_appwrite/features/todo/presentation/bloc/todo_bloc.dart';
+import '../../features/todo/data/repository/todo_repository_impl.dart';
+import '../../features/todo/data/source/remote/todo_appwrite_remote_source.dart';
+import '../../features/todo/domain/repository/todo_repository.dart';
+import '../../features/todo/domain/usecases/add_todo_usecase.dart';
+import '../../features/todo/domain/usecases/get_todos_usecase.dart';
+import '../../features/todo/presentation/bloc/todo_bloc.dart';
 import '../../features/auth/domain/usecases/get_logged_in_user.dart';
 import '../service/local_storage_service.dart';
 import '../../features/auth/domain/usecases/login_user_usecase.dart';
@@ -66,5 +67,8 @@ _initTodo() {
       () => TodoRepositoryImpl(todoAppwriteRemoteSource: locator()),
     )
     ..registerFactory(() => AddTodoUsecase(todoRepository: locator()))
-    ..registerLazySingleton(() => TodoBloc(addTodoUsecase: locator()));
+    ..registerFactory(() => GetTodosUsecase(todoRepository: locator()))
+    ..registerLazySingleton(
+      () => TodoBloc(addTodoUsecase: locator(), getTodosUsecase: locator()),
+    );
 }

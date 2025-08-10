@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_flutter_appwrite/features/todo/presentation/pages/add_todo.dart';
-import 'package:todo_flutter_appwrite/features/todo/presentation/pages/todo.dart';
+import '../../features/todo/presentation/pages/add_todo.dart';
+import '../../features/todo/presentation/pages/todo.dart';
 import '../../features/auth/presentation/pages/login.dart';
 import '../../features/auth/presentation/pages/register.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';

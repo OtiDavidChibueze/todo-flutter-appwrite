@@ -1,18 +1,17 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/usecases/use_cases.dart';
-import '../../data/dto/add_todo_request.dart';
 import '../entities/todo_entity.dart';
 import '../repository/todo_repository.dart';
 
-class AddTodoUsecase implements UseCases<List<TodoEntity>, AddTodoRequest> {
+class GetTodosUsecase implements UseCases<List<TodoEntity>, NoParams> {
   final TodoRepository _todoRepository;
 
-  AddTodoUsecase({required TodoRepository todoRepository})
+  GetTodosUsecase({required TodoRepository todoRepository})
     : _todoRepository = todoRepository;
 
   @override
-  Future<Either<Failure, List<TodoEntity>>> call(AddTodoRequest req) async {
-    return await _todoRepository.addTodo(req);
+  Future<Either<Failure, List<TodoEntity>>> call(NoParams req) async {
+    return await _todoRepository.getTodos();
   }
 }

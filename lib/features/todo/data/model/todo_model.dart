@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:todo_flutter_appwrite/features/todo/domain/entities/todo_entity.dart';
+import '../../domain/entities/todo_entity.dart';
 
 class TodoModel extends TodoEntity {
   TodoModel({

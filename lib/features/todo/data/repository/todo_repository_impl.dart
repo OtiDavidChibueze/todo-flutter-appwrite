@@ -1,10 +1,10 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:todo_flutter_appwrite/core/error/exception.dart';
-import 'package:todo_flutter_appwrite/core/error/failure.dart';
-import 'package:todo_flutter_appwrite/features/todo/data/dto/add_todo_request.dart';
-import 'package:todo_flutter_appwrite/features/todo/data/source/remote/todo_appwrite_remote_source.dart';
-import 'package:todo_flutter_appwrite/features/todo/domain/entities/todo_entity.dart';
-import 'package:todo_flutter_appwrite/features/todo/domain/repository/todo_repository.dart';
+import '../../../../core/error/exception.dart';
+import '../../../../core/error/failure.dart';
+import '../dto/add_todo_request.dart';
+import '../source/remote/todo_appwrite_remote_source.dart';
+import '../../domain/entities/todo_entity.dart';
+import '../../domain/repository/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final TodoAppwriteRemoteSource _todoAppwriteRemoteSource;
@@ -30,5 +30,10 @@ class TodoRepositoryImpl implements TodoRepository {
     } catch (e) {
       return Left(Failure(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, List<TodoEntity>>> getTodos() {
+    return _getTodo(() async => await _todoAppwriteRemoteSource.getTodos());
   }
 }

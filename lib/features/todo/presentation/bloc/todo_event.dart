@@ -8,3 +8,5 @@ final class AddTodoEvent extends TodoEvent {
 
   AddTodoEvent({required this.title, required this.description});
 }
+
+final class GetTodosEvent extends TodoEvent {}
