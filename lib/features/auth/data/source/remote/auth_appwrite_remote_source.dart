@@ -66,7 +66,7 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
           'firstname': req.firstname,
           'lastname': req.lastname,
           'email': req.email,
-          'profileImage': 'user.png',
+          'profileImage': '',
         },
       );
 
