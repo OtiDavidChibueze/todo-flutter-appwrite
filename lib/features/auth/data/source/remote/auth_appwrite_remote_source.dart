@@ -101,7 +101,7 @@ class AuthAppwriteRemoteSourceImpl implements AuthAppwriteRemoteSource {
       );
 
       await _localStorageService.saveSession(AppString.sessionKey, session.$id);
-      await _localStorageService.saveSession(session.userId, session.userId);
+      await _localStorageService.saveSession(AppString.userId, session.userId);
 
       AppLogger.i('User logged in: ${session.toMap()}');
 
