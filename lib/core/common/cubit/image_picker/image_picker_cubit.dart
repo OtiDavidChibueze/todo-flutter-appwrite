@@ -31,8 +31,6 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
   }
 
   void resetImg() {
-    Future.delayed(Duration(seconds: 1), () {
-      return emit(ImagePickerInitialState());
-    });
+    return emit(ImagePickerInitialState());
   }
 }
