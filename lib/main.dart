@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_flutter_appwrite/core/common/cubit/image_picker/image_picker_cubit.dart';
 import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
 
 import 'app.dart';
@@ -35,6 +36,7 @@ void main() async {
         providers: [
           BlocProvider(create: (context) => locator<AuthBloc>()),
           BlocProvider(create: (context) => locator<TodoBloc>()),
+          BlocProvider(create: (context) => locator<ImagePickerCubit>()),
         ],
         child: const MyApp(),
       ),

@@ -31,7 +31,6 @@ class CustomButtonWidget extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         elevation: WidgetStateProperty.all(0),
-
         backgroundColor: WidgetStateProperty.all(backgroundColor),
         fixedSize: WidgetStateProperty.all(Size(sw(width), sh(height))),
         shape: WidgetStateProperty.all(

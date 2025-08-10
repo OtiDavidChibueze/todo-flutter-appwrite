@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:todo_flutter_appwrite/core/common/cubit/image_picker/image_picker_cubit.dart';
 import 'package:todo_flutter_appwrite/features/auth/domain/usecases/edit_profile.dart';
 import 'package:todo_flutter_appwrite/features/todo/domain/usecases/delete_todo_usecase.dart';
 import '../../features/todo/domain/usecases/edit_todo_usecase.dart';
@@ -31,6 +33,10 @@ void setUpLocator() async {
   locator.registerLazySingleton(() => LocalStorageService());
 
   _initTodo();
+
+  locator.registerLazySingleton(() => ImagePicker());
+
+  _initImagePickerCubit();
 }
 
 _initAuth() {
@@ -83,4 +89,8 @@ _initTodo() {
         deleteTodoUsecase: locator(),
       ),
     );
+}
+
+_initImagePickerCubit() {
+  locator.registerFactory(() => ImagePickerCubit(imagePicker: locator()));
 }

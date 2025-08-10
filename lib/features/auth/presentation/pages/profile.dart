@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter_appwrite/core/common/cubit/image_picker/image_picker_cubit.dart';
+import 'package:todo_flutter_appwrite/core/common/theme/app_color.dart';
 import 'package:todo_flutter_appwrite/core/common/widgets/custom_button_widget.dart';
 import 'package:todo_flutter_appwrite/core/common/widgets/custom_textfield_widget.dart';
 import 'package:todo_flutter_appwrite/core/constants/app_images_url.dart';
@@ -32,7 +36,6 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-
     _firstname = TextEditingController(text: widget.user.firstname);
     _lastname = TextEditingController(text: widget.user.lastname);
     _profileImage = widget.user.profileImage;
@@ -70,10 +73,61 @@ class _ProfileState extends State<Profile> {
                   return Column(
                     children: [
                       ClipRRect(
-                        child: Image.asset(
-                          AppImageUrl.user,
-                          width: w(200),
-                          height: h(200),
+                        borderRadius: BorderRadius.circular(sr(100)),
+                        child: BlocBuilder<ImagePickerCubit, ImagePickerState>(
+                          builder: (context, state) {
+                            if (state is ImagePickerLoadingState) {
+                              return SizedBox(
+                                height: h(200),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColor.appColor,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if (state is ImagePickerSuccessState) {
+                              return GestureDetector(
+                                onTap: () =>
+                                    context.read<ImagePickerCubit>().resetImg(),
+                                child: Image.file(
+                                  File(state.imagePath),
+                                  fit: BoxFit.cover,
+                                  width: w(200),
+                                  height: h(200),
+                                ),
+                              );
+                            }
+
+                            if (state is ImagePickerErrorState) {
+                              CustomSnackbar.error(context, state.errorMessage);
+                              return Container(
+                                color: AppColor.errorColor,
+                                width: w(200),
+                                height: h(200),
+                                child: Center(
+                                  child: CustomButtonWidget(
+                                    btnText: AppString.retry,
+                                    backgroundColor: AppColor.transparentColor,
+                                    onPressed: () => context
+                                        .read<ImagePickerCubit>()
+                                        .resetImg(),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return GestureDetector(
+                              onTap: () =>
+                                  context.read<ImagePickerCubit>().pickImage(),
+                              child: Image.asset(
+                                AppImageUrl.user,
+                                fit: BoxFit.cover,
+                                width: w(200),
+                              ),
+                            );
+                          },
                         ),
                       ),
 
@@ -82,6 +136,7 @@ class _ProfileState extends State<Profile> {
                       CustomTextfieldWidget(
                         hintText: AppString.firstname,
                         controller: _firstname,
+
                         validator: (value) => Validations.isEmpty(value),
                         keyboardType: TextInputType.name,
                       ),

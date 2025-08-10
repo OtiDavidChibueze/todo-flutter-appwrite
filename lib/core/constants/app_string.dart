@@ -39,4 +39,6 @@ class AppString {
   static const String profile = 'Profile';
   static const String logout = 'Logout';
   static const String profileUpdated = 'Profile updated';
+  static const String imageError = 'No image Selected';
+  static const String retry = 'Try again!';
 }
