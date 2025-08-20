@@ -139,6 +139,11 @@ class _LoginPageState extends State<LoginPage> {
                         child: RichText(
                           text: TextSpan(
                             text: AppString.newUser,
+                            style: TextStyle(
+                              color: AppColor.greyColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: sp(14),
+                            ),
                             children: [
                               TextSpan(
                                 text: AppString.register,

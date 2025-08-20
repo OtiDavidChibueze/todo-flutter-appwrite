@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter_appwrite/features/auth/domain/entities/user_entity.dart';
-import 'package:todo_flutter_appwrite/features/auth/presentation/pages/profile.dart';
+import 'package:todo_flutter_appwrite/features/auth/presentation/pages/profile_page.dart';
 import 'edit_todo.dart';
 import '../../../../core/common/theme/app_color.dart';
 import '../../../../core/constants/app_string.dart';

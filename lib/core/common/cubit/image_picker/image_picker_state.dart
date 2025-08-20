@@ -7,9 +7,9 @@ final class ImagePickerInitialState extends ImagePickerState {}
 final class ImagePickerLoadingState extends ImagePickerState {}
 
 final class ImagePickerSuccessState extends ImagePickerState {
-  final String imagePath;
+  final XFile imageFile;
 
-  ImagePickerSuccessState({required this.imagePath});
+  ImagePickerSuccessState({required this.imageFile});
 }
 
 final class ImagePickerErrorState extends ImagePickerState {

@@ -9,7 +9,7 @@ import '../../../../core/utils/fullscreen_dialog_loader.dart';
 import '../../../../core/utils/size_utils.dart';
 import '../../../../core/utils/validation/validators.dart';
 import '../bloc/auth_bloc.dart';
-import 'login.dart';
+import 'login_page.dart';
 import '../../../../core/common/widgets/custom_button_widget.dart';
 import '../../../../core/common/widgets/custom_textfield_widget.dart';
 

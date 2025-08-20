@@ -23,7 +23,7 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
         return emit(ImagePickerErrorState(errorMessage: AppString.imageError));
       }
 
-      return emit(ImagePickerSuccessState(imagePath: pickImage.path));
+      return emit(ImagePickerSuccessState(imageFile: pickImage));
     } catch (e) {
       emit(ImagePickerLoadingState());
       return emit(ImagePickerErrorState(errorMessage: e.toString()));

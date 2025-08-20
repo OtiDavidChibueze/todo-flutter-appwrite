@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -91,12 +92,17 @@ class _ProfileState extends State<Profile> {
                               return GestureDetector(
                                 onTap: () =>
                                     context.read<ImagePickerCubit>().resetImg(),
-                                child: Image.file(
-                                  File(state.imagePath),
+                                child: kIsWeb? Image.network(
+                                  state.imageFile.path,
                                   fit: BoxFit.cover,
                                   width: w(200),
                                   height: h(200),
-                                ),
+                                ) :  Image.file(
+                                  File(state.imageFile.path),
+                                  fit: BoxFit.cover,
+                                  width: w(200),
+                                  height: h(200),
+                                )
                               );
                             }
 
